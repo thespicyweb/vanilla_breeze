@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "nodemon server.js",
     "twconvert": "tailwindcss -i ./tw/source.css -o ./tw/dest.css"
   },
   "dependencies": {
@@ -14,7 +14,12 @@
   "devDependencies": {
     "@fastify/formbody": "^7.0.1",
     "@fastify/multipart": "^7.1.0",
+    "nodemon": "^2.0.19",
     "pino-pretty": "^9.0.0",
     "tailwindcss": "^3.1.8"
+  },
+  "nodemonConfig": {
+    "ignore": ["public/*", "tw/*"],
+    "delay": 500
   }
 }

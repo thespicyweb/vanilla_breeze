@@ -37,7 +37,16 @@ fastify
     await writeFile('./tw/SERVER_source.css', combinedSource);
 
     const cmd = "npx tailwindcss -i ./tw/SERVER_source.css -o ./tw/SERVER_dest.css"
+    try {
     const { stdout, stderr } = await exec(cmd);
+    } catch (error) {
+      if (error.message.includes("result = new CssSyntaxError")) {
+        const mtch = error.message.match(/The `(.*?)` class does not exist./)
+        return `Oops, the "${mtch[1]}" class in your input HTML is not a default Tailwind utility class.`
+      } else {
+        return "Unknown server error. Please double-check your input HTML and try again."
+      }
+    }
 
     return readFile("./tw/SERVER_dest.css")
   })
