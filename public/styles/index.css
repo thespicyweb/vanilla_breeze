@@ -1,0 +1,57 @@
+@import "https://unpkg.com/open-props";
+@import "variables.css";
+
+body {
+  background: var(--bgcolor);
+  font-family: var(--font-sans);
+}
+
+header {
+  text-align: center;
+}
+
+main {
+  max-width: 140ch;
+  margin-inline: auto;
+}
+
+h1 {
+  font-size: var(--font-size-fluid-2);
+}
+
+p {
+  font-size: var(--paragraph-size);
+}
+
+a {
+  color: var(--blue-9);
+  text-decoration: none;
+}
+
+footer {
+  text-align: center;
+  margin-block-start: calc(var(--size-9) + var(--size-9));
+}
+
+section {
+  margin-block: var(--size-6);
+}
+
+label {
+  display: block;
+}
+
+textarea + label {
+  margin-block-start: var(--size-3);
+}
+
+textarea {
+  width: 100%;
+  height: 15ch;
+}
+
+iframe {
+  display: block;
+  width: 100%;
+  height: 80vh;
+}

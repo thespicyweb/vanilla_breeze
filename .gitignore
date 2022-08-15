@@ -1,0 +1,16 @@
+node_modules
+.npm
+
+# dotenv environment variables file
+.env
+
+# Mac files
+.DS_Store
+
+# Yarn
+yarn-error.log
+yarn-debug.log*
+.pnp/
+.pnp.js
+# Yarn Integrity file
+.yarn-integrity

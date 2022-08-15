@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  max-width: max-content;
+  background: white;
+  padding: 10px;
+  border: 1px solid var(--cyan-4);
+}
+
+p {
+  margin: 0;
+  color: var(--cyan-8);
+}

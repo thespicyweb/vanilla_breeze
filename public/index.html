@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+  <head>
+    <title>A Very Static Hello World</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="/styles/index.css" rel="stylesheet" />
+
+    <!-- Polyfill CSS/JSON module imports -->
+    <script>window.esmsInitOptions = { polyfillEnable: ['css-modules', 'json-modules'] }</script>
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.4/dist/es-module-shims.js"></script>
+    <script async src="https://unpkg.com/construct-style-sheets-polyfill@3.1.0/dist/adoptedStyleSheets.js"></script>
+
+    <!-- Add import for Lit, etc. -->
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://ga.jspm.io/npm:lit@2.2.3/index.js"
+        },
+        "scopes": {
+          "https://ga.jspm.io/": {
+            "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.3.2/development/reactive-element.js",
+            "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.2.0/development/lit-element.js",
+            "lit-html": "https://ga.jspm.io/npm:lit-html@2.2.3/development/lit-html.js"
+          }
+        }
+      }
+    </script>
+
+    <script src="/components/index.js" type="module"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vanilla Breeze</h1>
+    </header>
+
+    <main>
+      <p>Convert Tailwind CSS to Vanilla CSS</p>
+
+      <section>
+        <label for="component-name">Enter a top-level component class name:</label>
+        <input id="component-name" type="text" value="component-name" />
+      </section>
+
+      <section>
+        <label for="html-source">HTML Source:</label>
+        <textarea id="html-source"></textarea>
+
+        <br/>
+        <button id="convert">Convert!</button>
+      </section>
+
+      <section>
+        <label for="html-source">Vanilla HTML Output:</label>
+        <textarea id="html-output"></textarea>
+
+        <label for="html-source">Vanilla CSS — Global:</label>
+        <textarea id="css-output-global"></textarea>
+
+        <label for="html-source">Vanilla CSS — Component:</label>
+        <textarea id="css-output-component"></textarea>
+      </section>
+
+      <section id="preview">
+        <!-- generated iframe here -->
+      </section>
+
+      <lit-comp style="margin-block-end: var(--size-4)">🎉</lit-comp>
+
+      <vanilla-comp>🙌</vanilla-comp>
+    </main>
+
+    <footer>
+      <p>
+        <a href="https://github.com/jaredcwhite/buildless-static-site">View This Repo on GitHub ➤</a>
+      </p>
+
+      <p>
+        <a href="https://www.spicyweb.dev/buildless-modern-development-workflows-are-this-close-to-a-reality/">Read the Spicy Web Article ➤</a>
+      </p>
+    </footer>
+  </body>
+</html>
