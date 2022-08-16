@@ -5,21 +5,29 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon server.js",
+    "build": "esbuild --bundle --format=esm src/index.js --outdir=public/js",
     "twconvert": "tailwindcss -i ./tw/source.css -o ./tw/dest.css"
   },
   "dependencies": {
+    "@codemirror/lang-css": "^6.0.0",
+    "@codemirror/lang-html": "^6.1.0",
     "@fastify/static": "^6.5.0",
+    "codemirror": "^6.0.1",
     "fastify": "^4.4.0"
   },
   "devDependencies": {
     "@fastify/formbody": "^7.0.1",
     "@fastify/multipart": "^7.1.0",
+    "esbuild": "^0.15.3",
     "nodemon": "^2.0.19",
     "pino-pretty": "^9.0.0",
     "tailwindcss": "^3.1.8"
   },
   "nodemonConfig": {
-    "ignore": ["public/*", "tw/*"],
+    "ignore": [
+      "public/*",
+      "tw/*"
+    ],
     "delay": 500
   }
 }

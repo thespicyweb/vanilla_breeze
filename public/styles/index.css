@@ -55,3 +55,11 @@ iframe {
   width: 100%;
   height: 80vh;
 }
+
+codemirror-editor {
+  display: block;
+  height: 30vh;
+  position: relative;
+  background: white;
+  font-family: ui-monospace, monospace;
+}

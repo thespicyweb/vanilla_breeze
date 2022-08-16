@@ -14,3 +14,6 @@ yarn-debug.log*
 .pnp.js
 # Yarn Integrity file
 .yarn-integrity
+
+tmp
+public/js
