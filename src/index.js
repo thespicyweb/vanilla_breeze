@@ -112,24 +112,39 @@ document.querySelector("#convert").addEventListener("click", async () => {
     }
     let cssSelector = parentsSelectorList.join(" > ")
 
-    const uniq = nodeList.find(item => item.selector === cssSelector && item.classes !== classesForNode(currentNode))
+    const uniqItems = nodeList.filter(item => item.selector === cssSelector && item.classes !== classesForNode(currentNode))
     same = nodeList.find(item => item.selector === cssSelector && item.classes === classesForNode(currentNode) && !item.uniqClassName)
 
     if (currentNode.hasAttribute("vb-ignore")) {
       same = true
 //      uniq = false
       currentNode.removeAttribute("vb-ignore")
-    } else if (uniq) {
-      if (!uniq.uniqClassName) {
-        if (uniq.node.getAttribute("vb-class")) {
-          uniq.uniqClassName = `${componentName}__${uniq.node.getAttribute("vb-class")}`
-          uniq.node.removeAttribute("vb-class")
-        } else {
-          uniq.uniqClassName = `${componentName}__uniq${uniqCount}`
-          uniqCount++
+    } else if (uniqItems.length > 0) {
+      console.info("OH, uniqItems!", cssSelector, uniqItems, classesForNode(currentNode))
+      let lastNodeClasses = null
+      let finalAdvance = false
+      uniqItems.forEach(uniqItem => {
+        if (!uniqItem.uniqClassName) {
+          if (uniqItem.node.getAttribute("vb-class")) {
+            uniqItem.uniqClassName = `${componentName}__${uniqItem.node.getAttribute("vb-class")}`
+            uniqItem.node.removeAttribute("vb-class")
+          } else {
+            uniqItem.uniqClassName = `${componentName}__uniq${uniqCount}`
+            if (lastNodeClasses && classesForNode(currentNode) != lastNodeClasses) {
+              finalAdvance = false
+              uniqCount++
+            } else {
+              finalAdvance = true
+            }
+          }
+          lastNodeClasses = classesForNode(currentNode)
+          uniqItem.node.setAttribute("class", uniqItem.uniqClassName)
         }
-        uniq.node.setAttribute("class", uniq.uniqClassName)
+      })
+      if (finalAdvance) {
+        uniqCount++
       }
+
       if (currentNode.getAttribute("vb-class")) {
         uniqClassName = `${componentName}__${currentNode.getAttribute("vb-class")}`
         currentNode.removeAttribute("vb-class")
@@ -142,14 +157,15 @@ document.querySelector("#convert").addEventListener("click", async () => {
       currentNode.removeAttribute("vb-class")
     }
 
-    if (!same) {
+//    if (!same) {
       nodeList.push({
         node: currentNode,
         selector: cssSelector,
         classes: classesForNode(currentNode),
+        same,
         uniqClassName
       })
-    }
+//    }
 
     if (uniqClassName) {
       currentNode.setAttribute("class", uniqClassName)
@@ -169,9 +185,8 @@ document.querySelector("#convert").addEventListener("click", async () => {
 
   let cssOutput = []
   nodeList.forEach(nodeData => {
-    if (nodeData.classes !== "") {
+    if (nodeData.classes !== "" && !nodeData.same) {
       cssOutput.push(`${nodeData.selector}${nodeData.uniqClassName ? `.${nodeData.uniqClassName}` : ""} {`)
-      console.info(nodeData.classes)
       nodeData.classes.split(/\s+/).forEach(cls => {
         if (cls != "") {
           cssOutput.push(`  @apply ${cls};`)
