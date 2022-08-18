@@ -47,19 +47,12 @@ ${utilityClause}
 
   await writeFile(sourcePath, combinedSource)
 
+  let cmdOutput = null
   const cmd = `npx tailwindcss -i ${sourcePath} -o ${destPath}`
   try {
-    const { stdout, stderr } = await exec(cmd)
-    console.log(stdout)
-    console.warn(stderr)
-
-    return {
-      completed: true,
-      output: await readFile(destPath),
-      tmpFolder: o.path
-    }
+    cmdOutput = await exec(cmd)
   } catch (error) {
-    if (error.message.includes("result = new CssSyntaxError") && error.message.includes ("class does not exist.")) {
+    if (error.message.includes("CssSyntaxError") && error.message.includes("class does not exist.")) {
       const mtch = error.message.match(/The `(.*?)` class does not exist./)
       return {
         unknownMatch: mtch[1],
@@ -72,6 +65,14 @@ ${utilityClause}
         tmpFolder: o.path
       }
     }
+  }
+
+  console.log(cmdOutput)
+
+  return {
+    completed: true,
+    output: await readFile(destPath),
+    tmpFolder: o.path
   }
 }
 
