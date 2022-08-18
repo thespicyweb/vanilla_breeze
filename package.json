@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon server.js",
+    "start": "node server.js",
     "build": "esbuild --bundle --format=esm src/index.js --outdir=public/js",
     "twconvert": "tailwindcss -i ./tw/source.css -o ./tw/dest.css"
   },

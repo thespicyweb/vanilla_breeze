@@ -124,7 +124,7 @@ fastify
 
 const start = async () => {
   try {
-    await fastify.listen({ port: 4001 })
+    await fastify.listen({ port: process.env["PORT"] || 4001 })
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)
