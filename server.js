@@ -51,6 +51,7 @@ ${utilityClause}
   try {
     const { stdout, stderr } = await exec(cmd)
     console.log(stdout)
+    console.warn(stderr)
 
     return {
       completed: true,
@@ -99,6 +100,7 @@ fastify
     let result = null
 
     while (!completed && iterations < 20) {
+      console.log("iterations!")
       iterations++
       result = await processTailwindMarkup(source, unknownUtilities)
       if (result.errorMessage) {
