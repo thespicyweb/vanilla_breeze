@@ -1,4 +1,6 @@
 :root {
-  --bgcolor: var(--yellow-0);
+  --bgcolor: var(--gray-1);
   --paragraph-size: var(--font-size-3);
+
+  --sl-input-label-color: var(--sl-color-neutral-600);
 }

@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>A Very Static Hello World</title>
+    <title>Vanilla Breeze: Convert Tailwind CSS to Semantic CSS</title>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,58 +12,121 @@
   </head>
   <body>
     <header>
+      <img src="https://passthesushi.com/wp-content/uploads/2016/07/Vanilla-Sea-Breeze-Cocktail-Kita-Roberts-PassTheSushi-5-768x513.jpg" style="max-width:250px"/>
+
       <h1>Vanilla Breeze</h1>
 
-      <img src="https://passthesushi.com/wp-content/uploads/2016/07/Vanilla-Sea-Breeze-Cocktail-Kita-Roberts-PassTheSushi-5-768x513.jpg" style="max-width:200px"/>
+      <p>Convert Tailwind CSS to Semantic CSS</p>
     </header>
 
     <main>
-      <p>Convert Tailwind CSS to Vanilla CSS</p>
+      <main-editors>
+        <section>
+          <sl-card style="display:block">
+            <sl-input
+              label="What would you like to call your component?"
+              id="component-name"
+              value="my-alert"
+              style="margin-block-end: var(--size-3);"
+            ></sl-input>
 
-      <section>
-        <label for="component-name">Enter a top-level component class name or custom element wrapper name:</label>
-        <input id="component-name" type="text" value="component-name" />
-        <input type="radio" name="selector-type" value="class" checked />Class
-        <input type="radio" name="selector-type" value="element" />Custom Element Wrapper
-      </section>
+            <label class="label" for="selector-type">
+              Choose the form of the selector:
+            </label>
 
-      <section>
-        <label for="html-source">HTML Source:</label>
-        <codemirror-editor id="html-source"></codemirror-editor>
+            <sl-radio-group label="Selector Type" id="selector-type" value="class" style="margin-block-end: var(--size-3)">
+              <sl-tooltip content="div.component-name">
+                <sl-radio-button size="small" value="class">Class</sl-radio-button>
+              </sl-tooltip>
+              <sl-tooltip content="component-name > div">
+                <sl-radio-button size="small" value="element">Custom Element Wrapper</sl-radio-button>
+              </sl-tooltip>
+              <sl-tooltip content="Coming Soon!">
+                <sl-radio-button size="small" value="element" disabled>Web Component + Shadow DOM</sl-radio-button>
+              </sl-tooltip>
+            </sl-radio-group>
 
-        <br/>
-        <button id="convert">Convert!</button>
-      </section>
+            <label class="label" for="selector-type">
+              And the combinator:
+            </label>
 
-      <section>
-        <label for="html-output">Vanilla HTML Output:</label>
-        <codemirror-editor id="html-output"></codemirror-editor>
+            <sl-radio-group label="Combinator" id="combinator" value="child">
+              <sl-tooltip content="more accurate, less flexible">
+                <sl-radio-button size="small" value="child">Child Combinator (>)</sl-radio-button>
+              </sl-tooltip>
+              <sl-tooltip content="more flexible, less accurate">
+                <sl-radio-button size="small" value="descendant">Descendant Combinator</sl-radio-button>
+              </sl-tooltip>
+            </sl-radio-group>
+          </sl-card>
 
-        <label for="css-output-global">Vanilla CSS — Global:</label>
-        <codemirror-editor id="css-output-global"></codemirror-editor>
+          <br />
 
-        <label for="css-output-component">Vanilla CSS — Component:</label>
-        <codemirror-editor id="css-output-component"></codemirror-editor>
+          <div style="text-align: center">
+            <sl-button variant="success" size="large" id="convert">
+              Run Conversion
+              <label slot="suffix" style="font-size:175%; margin-block-start: var(--size-2)"><sl-icon name="play-fill"></sl-icon></label>
+            </sl-button>
+          </div>
+        </section>
 
-        <button id="show-preview">Refresh Preview</button>
-      </section>
+        <section>
+          <sl-tab-group id="html-tabs">
+            <sl-tab slot="nav" panel="source">
+              <label>HTML <strong>Source</strong></label>
+            </sl-tab>
+            <sl-tab slot="nav" panel="output">
+              <label>HTML <strong>Output</strong></label>
+            </sl-tab>
 
-      <section id="preview">
-        <!-- generated iframe here -->
-      </section>
+            <sl-tab-panel name="source">
+              <codemirror-editor id="html-source">
+                <!-- keep the indentation like this: -->
+                <template>
+<div class="p-4 px-6 mb-4 text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+  <span class="font-bold">You did it!</span> Now you can play around with the HTML source and other options to see the results.
+</div>
+                </template>
+              </codemirror-editor>
+            </sl-tab-panel>
+            <sl-tab-panel name="output">
+              <codemirror-editor id="html-output"></codemirror-editor>
+            </sl-tab-panel>
+          </sl-tab-group>          
 
-      <lit-comp style="margin-block-end: var(--size-4)">🎉</lit-comp>
+          <sl-tab-group>
+            <sl-tab slot="nav" panel="component">
+              <label><strong>Component</strong> Vanilla CSS</label>
+            </sl-tab>
+            <sl-tab slot="nav" panel="global">
+              <label><strong>Global</strong> Reset + Tokens CSS</label>
+            </sl-tab>
 
-      <vanilla-comp>🙌</vanilla-comp>
+            <sl-tab-panel name="component">
+              <codemirror-editor id="css-output-component"></codemirror-editor>
+            </sl-tab-panel>
+            <sl-tab-panel name="global">
+              <codemirror-editor id="css-output-global"></codemirror-editor>
+            </sl-tab-panel>
+          </sl-tab-group>
+        </section>
+      </main-editors>
+      <main-preview>
+        <section id="preview">
+          <iframe></iframe>
+        </section>
+
+        <sl-button id="show-preview">Refresh Preview</sl-button>
+      </main-preview>
     </main>
 
     <footer>
       <p>
-        <a href="https://github.com/jaredcwhite/buildless-static-site">View This Repo on GitHub ➤</a>
+        Using Tailwind v3.1.8. Built with Open Props, Shoelace, Fastify, and esbuild.
       </p>
 
       <p>
-        <a href="https://www.spicyweb.dev/buildless-modern-development-workflows-are-this-close-to-a-reality/">Read the Spicy Web Article ➤</a>
+        <a href="https://github.com/jaredcwhite/buildless-static-site">View This Repo on GitHub ➤</a>
       </p>
     </footer>
   </body>

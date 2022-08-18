@@ -1,6 +1,20 @@
-import {basicSetup, EditorView} from "codemirror"
-import {html} from "@codemirror/lang-html"
-import {css} from "@codemirror/lang-css"
+import '@shoelace-style/shoelace/dist/components/button/button.js';
+import '@shoelace-style/shoelace/dist/components/input/input.js';
+import '@shoelace-style/shoelace/dist/components/radio-button/radio-button.js';
+import '@shoelace-style/shoelace/dist/components/radio-group/radio-group.js';
+import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js';
+import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js';
+import '@shoelace-style/shoelace/dist/components/tab/tab.js';
+import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
+import '@shoelace-style/shoelace/dist/components/icon/icon.js';
+import '@shoelace-style/shoelace/dist/components/card/card.js';
+
+import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
+setBasePath('/shoelace/dist');
+
+import { basicSetup, EditorView } from "codemirror"
+import { html } from "@codemirror/lang-html"
+import { css } from "@codemirror/lang-css"
 
 const scrollingEditor = EditorView.theme({
   "&": {height: "100%"},
@@ -8,6 +22,7 @@ const scrollingEditor = EditorView.theme({
 })
 
 const htmlView = new EditorView({
+  doc: document.querySelector("#html-source > template").innerHTML.trim(),
   extensions: [basicSetup, html(), EditorView.lineWrapping, scrollingEditor],
   parent: document.querySelector("#html-source")
 })
@@ -20,7 +35,10 @@ const htmlOutputView = new EditorView({
   parent: document.querySelector("#html-output")
 })
 const getHTMLOutputValue = () => htmlOutputView.state.doc.toString()
-const setHTMLOutputValue = (val) => htmlOutputView.dispatch({changes: {from: 0, to: htmlOutputView.state.doc.length, insert: val}})
+const setHTMLOutputValue = (val) => {
+  htmlOutputView.dispatch({changes: {from: 0, to: htmlOutputView.state.doc.length, insert: val}})
+  document.querySelector("#html-tabs").show("output")
+}
 
 const cssGlobalView = new EditorView({
   extensions: [basicSetup, css(), EditorView.lineWrapping, scrollingEditor],
@@ -55,7 +73,7 @@ const showPreview = () => {
         <style>${getCSSGlobalValue()}</style>
         <style>${getCSSComponentValue()}</style>
       </head>
-      <body>
+      <body style="display: flex; align-items: center; justify-content: center; height: 100vh;">
         ${getHTMLOutputValue()}
       </body>
     </html>
@@ -67,10 +85,11 @@ const showPreview = () => {
 
 document.querySelector("#show-preview").addEventListener("click", showPreview)
 
-document.querySelector("#convert").addEventListener("click", async () => {
+document.querySelector("#convert").addEventListener("click", async (e) => {
+  e.target.loading = true
   const componentName = document.querySelector("#component-name").value
 
-  const selectorType = [...document.querySelectorAll("[name=selector-type]")].find(item => item.checked).value
+  const selectorType = document.querySelector("#selector-type").value
   const rootElName = selectorType === "element" ? componentName : "tailwind-conversion"
 
   const parser = new DOMParser()
@@ -99,6 +118,7 @@ document.querySelector("#convert").addEventListener("click", async () => {
   let uniqCount = 1
 
   let currentNode = treeWalker.currentNode
+  let combinator = document.querySelector("#combinator").value == "child" ? " > " : " "
 
   while(currentNode) {
     let uniqClassName = null
@@ -110,7 +130,7 @@ document.querySelector("#convert").addEventListener("click", async () => {
     } else if (selectorType == "element") {
       parentsSelectorList = [componentName, ...parentsSelectorList]
     }
-    let cssSelector = parentsSelectorList.join(" > ")
+    let cssSelector = parentsSelectorList.join(combinator)
 
     const uniqItems = nodeList.filter(item => item.selector === cssSelector && item.classes !== classesForNode(currentNode))
     same = nodeList.find(item => item.selector === cssSelector && item.classes === classesForNode(currentNode) && !item.uniqClassName)
@@ -209,9 +229,11 @@ document.querySelector("#convert").addEventListener("click", async () => {
   const outputParts = text.split("/* --CUSTOM-- */")
 
   setCSSGlobalValue(outputParts[0].trim())
-  setCSSComponentValue(outputParts[1].trim())
+  setCSSComponentValue(outputParts[1] ? outputParts[1].trim() : "")
 
   showPreview()
+
+  e.target.loading = false
 })
 
 

@@ -1,4 +1,5 @@
 @import "https://unpkg.com/open-props";
+@import "/shoelace/dist/themes/light.css";
 @import "variables.css";
 
 body {
@@ -11,16 +12,43 @@ header {
 }
 
 main {
-  max-width: 140ch;
+  max-width: 170ch;
   margin-inline: auto;
+  display: flex;
+  gap: var(--size-5);
+}
+
+main > :first-child {
+  width: 40%;
+}
+
+main > :last-child {
+  width: 60%;
+}
+
+@media (max-width: 767px) {
+  main {
+    flex-direction: column;
+  }
+
+  main > :first-child {
+    width: 100%;
+  }
+  
+  main > :last-child {
+    width: 100%;
+  }
 }
 
 h1 {
   font-size: var(--font-size-fluid-2);
+  font-weight: 900;
+  color: var(--gray-8);
 }
 
 p {
   font-size: var(--paragraph-size);
+  color: var(--gray-7);
 }
 
 a {
@@ -41,21 +69,8 @@ label {
   display: block;
 }
 
-textarea + label {
+codemirror-editor + label {
   margin-block-start: var(--size-3);
-}
-
-textarea {
-  width: 100%;
-  height: 15ch;
-}
-
-iframe {
-  display: block;
-  width: 100%;
-  height: 80vh;
-  border: none;
-  background: white;
 }
 
 codemirror-editor {
@@ -64,4 +79,32 @@ codemirror-editor {
   position: relative;
   background: white;
   font-family: ui-monospace, monospace;
+}
+
+iframe {
+  display: block;
+  width: 100%;
+  height: 60vh;
+  border: none;
+  background: white;
+}
+
+sl-tooltip {
+  --show-delay: 400ms;
+}
+
+/*
+sl-radio-button {
+  background: white;
+  border-radius: var(--sl-input-border-radius-small);
+}
+*/
+sl-radio-button::part(button) {
+  font-weight: normal;
+}
+
+label.label, sl-input::part(form-control-label) {
+  color: var(--gray-7);
+  font-size: var(--font-size-1);
+  margin-bottom: var(--size-2);
 }

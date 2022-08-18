@@ -654,15 +654,15 @@ module.exports = {
       '9xl': ['var(--tw-font-size-9xl)', { lineHeight: 'var(--tw-line-height-none)' }]
     },
     fontWeight: {
-      thin: '100',
-      extralight: '200',
-      light: '300',
-      normal: '400',
-      medium: '500',
-      semibold: '600',
-      bold: '700',
-      extrabold: '800',
-      black: '900',
+      thin: 'var(--tw-font-weight-thin)',
+      extralight: 'var(--tw-font-weight-extralight)',
+      light: 'var(--tw-font-weight-light)',
+      normal: 'var(--tw-font-weight-normal)',
+      medium: 'var(--tw-font-weight-medium)',
+      semibold: 'var(--tw-font-weight-semibold)',
+      bold: 'var(--tw-font-weight-bold)',
+      extrabold: 'var(--tw-font-weight-extrabold)',
+      black: 'var(--tw-font-weight-black)'
     },
     gap: ({ theme }) => theme('spacing'),
     gradientColorStops: ({ theme }) => theme('colors'),
@@ -1292,6 +1292,10 @@ module.exports = {
       });
 
       addBase({
+        ':root': extractVars("font-weight-", defaultTheme.fontWeight),
+      });
+
+      addBase({
         ':root': extractVars("line-height-", defaultTheme.lineHeight),
       });
 
@@ -1372,6 +1376,16 @@ module.exports = {
       // }
       // variableizeBorderRadius(theme('borderRadius'))
       // console.info(theme('borderRadius'))
+
+      // function variableizeFontWeight(obj) {
+      //   Object.entries(obj).forEach(([key, value]) => {
+      //     const cssVariable = `--tw-font-weight-${key.toLowerCase()}`;
+
+      //     obj[key] = `var(${cssVariable})`
+      //   })
+      // }
+      // variableizeFontWeight(theme('fontWeight'))
+      // console.info(theme('fontWeight'))
     })
   ],
 }
