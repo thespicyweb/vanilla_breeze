@@ -21,6 +21,14 @@ const { readFile, writeFile } = require('fs/promises')
 const { file } = require('tmp')
 const { rmdirSync } = require('fs')
 
+const containsSyntaxError = (message) => {
+  return message.includes("CssSyntaxError") && message.includes("class does not exist.")
+}
+
+const handleSyntaxError = (message) => {
+  return message.match(/The `(.*?)` class does not exist./)[1]
+}
+
 const processTailwindMarkup = async (source, unknownUtilities) => {
   const utilityClause = unknownUtilities.map(unknownUtility => {
     return `.${unknownUtility} { /* Unknown class .${unknownUtility} */ }\n\n`
@@ -49,13 +57,22 @@ ${utilityClause}
 
   let cmdOutput = null
   const cmd = `npx tailwindcss -i ${sourcePath} -o ${destPath}`
+
+  // For some reason, some systems return with stderr and others trigger a catch
+  // so we much handle both conditions!
+
   try {
     cmdOutput = await exec(cmd)
-  } catch (error) {
-    if (error.message.includes("CssSyntaxError") && error.message.includes("class does not exist.")) {
-      const mtch = error.message.match(/The `(.*?)` class does not exist./)
+    if (containsSyntaxError(cmdOutput.stderr)) {
       return {
-        unknownMatch: mtch[1],
+        unknownMatch: handleSyntaxError(cmdOutput.stderr),
+        tmpFolder: o.path
+      }
+    }
+  } catch (error) {
+    if (containsSyntaxError(error.message)) {
+      return {
+        unknownMatch: handleSyntaxError(error.message),
         tmpFolder: o.path
       }
     } else {
