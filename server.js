@@ -12,29 +12,30 @@ const fastify = require('fastify')({
     }
 })
 const fastifyStatic = require('@fastify/static')
+const autoprefixer = require('autoprefixer')
+const postcss = require('postcss')
+const tailwindcss = require("tailwindcss")
+const twConfig = require("./tailwind.config")
+const prettier = require("prettier")
 const path = require('path')
-const tmp = require('tmp-promise')
 
-const util = require('util')
-const exec = util.promisify(require('child_process').exec);
-const { readFile, writeFile } = require('fs/promises')
-const { file } = require('tmp')
-const { rmdirSync } = require('fs')
 
 const containsSyntaxError = (message) => {
-  return message.includes("CssSyntaxError") && message.includes("class does not exist.")
+  return message.match("The `(.*?)` class does not exist.")
 }
 
 const handleSyntaxError = (message) => {
   return message.match(/The `(.*?)` class does not exist./)[1]
 }
 
-const processTailwindMarkup = async (source, unknownUtilities) => {
+const processTailwindMarkup = async (source, twConfig, unknownUtilities) => {
   const utilityClause = unknownUtilities.map(unknownUtility => {
     return `.${unknownUtility} { /* Unknown class .${unknownUtility} */ }\n\n`
   })
 
   const combinedSource = `
+    @tailwind components;
+
     @layer tailwind-reset {
       @tailwind base;
     }
@@ -48,53 +49,26 @@ ${utilityClause}
     ${source}
   `
 
-  const o = await tmp.dir()
-  console.log(o.path)
-  const sourcePath = path.join(o.path, "source.css")
-  const destPath = path.join(o.path, "dest.css")
-
-  await writeFile(sourcePath, combinedSource)
-
-  let cmdOutput = null
-  const cmd = `npx tailwindcss -i ${sourcePath} -o ${destPath}`
-
-  // For some reason, some systems return with stderr and others trigger a catch
-  // so we much handle both conditions!
-
+  let result
   try {
-    cmdOutput = await exec(cmd)
-    if (containsSyntaxError(cmdOutput.stderr)) {
+    result = await postcss([tailwindcss(twConfig), autoprefixer]).process(combinedSource, { from: "convert.css" })
+    result = prettier.format(result.css, { parser: "css" })
+  } catch (e) {
+    console.warn(e.message)
+    if (containsSyntaxError(e.message)) {
       return {
-        unknownMatch: handleSyntaxError(cmdOutput.stderr),
-        tmpFolder: o.path
-      }
-    }
-  } catch (error) {
-    if (containsSyntaxError(error.message)) {
-      return {
-        unknownMatch: handleSyntaxError(error.message),
-        tmpFolder: o.path
+        unknownMatch: handleSyntaxError(e.message)
       }
     } else {
-      console.warn(error.message)
       return {
-        errorMessage: "Unknown server error. Please double-check your input HTML and try again.",
-        tmpFolder: o.path
+        errorMessage: "Unknown server error. Please double-check your source HTML and try again."
       }
     }
   }
-
-  console.log(cmdOutput)
-
   return {
     completed: true,
-    output: await readFile(destPath),
-    tmpFolder: o.path
+    output: result
   }
-}
-
-const cleanupResult = (result) => {
-  rmdirSync(result.tmpFolder, { recursive: true })
 }
 
 fastify
@@ -117,12 +91,14 @@ fastify
     let unknownUtilities = []
     let result = null
 
+    const newTwConfig = {...twConfig}
+    //newTwConfig.darkMode = "media"
+
     while (!completed && iterations < 20) {
       console.log("iterations!")
       iterations++
-      result = await processTailwindMarkup(source, unknownUtilities)
+      result = await processTailwindMarkup(source, newTwConfig, unknownUtilities)
       if (result.errorMessage) {
-        cleanupResult(result)
         return result.errorMessage
       } else if (result.unknownMatch) {
         unknownUtilities.push(result.unknownMatch)
@@ -133,11 +109,9 @@ fastify
 
     if (!completed) {
       console.warn(result.errorMessage)
-      cleanupResult(result)
-      return "Unknown server error. Please double-check your input HTML and try again."
+      return "Unknown server error. Please double-check your source HTML and try again."
     }
 
-    cleanupResult(result)
     return result.output
   })
 

@@ -3,7 +3,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [],
+  content: ["/dev/null"],
   presets: [],
   darkMode: 'class', // or 'class'
   theme: {
@@ -1214,7 +1214,7 @@ module.exports = {
     'disabled',
   ],
   plugins: [
-    plugin(function ({ addBase, theme }) {
+    plugin(function ({ addComponents, theme }) {
       function extractColorVars (colorObj, colorGroup = '') {
         return Object.keys(colorObj).reduce((vars, colorKey) => {
           const value = colorObj[colorKey];
@@ -1265,41 +1265,41 @@ module.exports = {
         }, {});
       }
 
-      addBase({
+      addComponents({
         ':root': extractColorVars(theme('referenceColors')),
       });
 
-      addBase({
+      addComponents({
         ':root': extractVars("s-", defaultTheme.spacing),
       });
 
-      addBase({
+      addComponents({
         ':root': extractVars("w-", defaultTheme.columns),
       });
 
-      addBase({
+      addComponents({
         ':root': {
           '--tw-w-prose': defaultTheme.maxWidth({theme, breakpoints: () => {}}).prose
         },
       });
 
-      addBase({
+      addComponents({
         ':root': extractFamilyVars("font-family-", defaultTheme.fontFamily),
       });
 
-      addBase({
+      addComponents({
         ':root': extractFontVars("font-size-", defaultTheme.fontSize),
       });
 
-      addBase({
+      addComponents({
         ':root': extractVars("font-weight-", defaultTheme.fontWeight),
       });
 
-      addBase({
+      addComponents({
         ':root': extractVars("line-height-", defaultTheme.lineHeight),
       });
 
-      addBase({
+      addComponents({
         ':root': extractVars("border-radius-", defaultTheme.borderRadius),
       });
 
