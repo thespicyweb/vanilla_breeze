@@ -30,7 +30,7 @@ const handleSyntaxError = (message) => {
 
 const processTailwindMarkup = async (source, twConfig, unknownUtilities) => {
   const utilityClause = unknownUtilities.map(unknownUtility => {
-    return `.${unknownUtility} { /* Unknown class .${unknownUtility} */ }\n\n`
+    return `.${unknownUtility} {\n  /* Unknown class .${unknownUtility} */\n}\n\n`
   })
 
   const combinedSource = `
