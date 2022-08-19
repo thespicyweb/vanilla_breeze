@@ -5,6 +5,7 @@
 body {
   background: var(--bgcolor);
   font-family: var(--font-sans);
+  margin-block-start: var(--size-4);
 }
 
 header {
@@ -44,11 +45,13 @@ h1 {
   font-size: var(--font-size-fluid-2);
   font-weight: 900;
   color: var(--gray-8);
+  margin-block: var(--size-4) var(--size-3);
 }
 
 p {
   font-size: var(--paragraph-size);
   color: var(--gray-7);
+  margin-block: var(--size-3) var(--size-4);
 }
 
 a {
@@ -59,6 +62,7 @@ a {
 footer {
   text-align: center;
   margin-block-start: calc(var(--size-9) + var(--size-9));
+  margin-block-end: var(--size-8);
 }
 
 section {
