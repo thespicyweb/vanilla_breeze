@@ -20,7 +20,7 @@ module.exports = {
       transparent: colors.transparent,
       black: colors.black,
       white: colors.white,
-      primary: {"50":"#eff6ff","100":"#dbeafe","200":"#bfdbfe","300":"#93c5fd","400":"#60a5fa","500":"#3b82f6","600":"#2563eb","700":"#1d4ed8","800":"#1e40af","900":"#1e3a8a"},
+      primary: {"50":"#eff6ff","100":"#dbeafe","200":"#bfdbfe","300":"#93c5fd","400":"#60a5fa","500":"#3b82f6","600":"#2563eb","700":"#1d4ed8","800":"#1e40af","900":"#1e3a8a", "DEFAULT": "#3056d3",},
       slate: colors.slate,
       gray: colors.gray,
       zinc: colors.zinc,
@@ -60,7 +60,8 @@ module.exports = {
         '600': 'var(--tw-color-primary-600)',
         '700': 'var(--tw-color-primary-700)',
         '800': 'var(--tw-color-primary-800)',
-        '900': 'var(--tw-color-primary-900)'
+        '900': 'var(--tw-color-primary-900)',
+        "DEFAULT": "var(--tw-color-primary)"
       },
       slate: {
         '50': 'var(--tw-color-slate-50)',

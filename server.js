@@ -25,7 +25,7 @@ const containsSyntaxError = (message) => {
 }
 
 const handleSyntaxError = (message) => {
-  return message.match(/The `(.*?)` class does not exist./)[1]
+  return message.match(/The `(.*?)` class does not exist./)[1].split(":").at(-1)
 }
 
 const processTailwindMarkup = async (source, twConfig, unknownUtilities) => {
