@@ -8,6 +8,7 @@ import '@shoelace-style/shoelace/dist/components/tab/tab.js';
 import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import '@shoelace-style/shoelace/dist/components/card/card.js';
+import '@shoelace-style/shoelace/dist/components/switch/switch.js';
 
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
 setBasePath('/shoelace/dist');
@@ -72,6 +73,11 @@ const showPreview = () => {
       <head>
         <style>${getCSSGlobalValue()}</style>
         <style>${getCSSComponentValue()}</style>
+        <style>
+          body.dark {
+            background: var(--tw-color-gray-900);
+          }
+        </style>
       </head>
       <body style="display: flex; align-items: center; justify-content: center; height: 100vh;">
         ${getHTMLOutputValue()}
@@ -82,6 +88,10 @@ const showPreview = () => {
   iframe.srcdoc = html;
   preview.appendChild(iframe)
 }
+
+document.querySelector("#toggle-dark-mode").addEventListener("click", (e) => {
+  document.querySelector("#preview iframe").contentDocument.body.classList.toggle("dark", e.target.checked)
+})
 
 document.querySelector("#show-preview").addEventListener("click", showPreview)
 
