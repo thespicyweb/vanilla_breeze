@@ -95,7 +95,6 @@ fastify
     //newTwConfig.darkMode = "media"
 
     while (!completed && iterations < 20) {
-      console.log("iterations!")
       iterations++
       result = await processTailwindMarkup(source, newTwConfig, unknownUtilities)
       if (result.errorMessage) {
