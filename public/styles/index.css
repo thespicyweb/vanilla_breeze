@@ -73,18 +73,6 @@ label {
   display: block;
 }
 
-codemirror-editor + label {
-  margin-block-start: var(--size-3);
-}
-
-codemirror-editor {
-  display: block;
-  height: 30vh;
-  position: relative;
-  background: white;
-  font-family: ui-monospace, monospace;
-}
-
 iframe {
   display: block;
   width: 100%;

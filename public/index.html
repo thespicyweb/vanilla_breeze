@@ -80,7 +80,7 @@
             </sl-tab>
 
             <sl-tab-panel name="source">
-              <codemirror-editor id="html-source">
+              <codemirror-editor id="html-source" language-syntax="html">
                 <!-- keep the indentation like this: -->
                 <template>
 <div class="p-4 px-6 mb-4 text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
@@ -90,9 +90,9 @@
               </codemirror-editor>
             </sl-tab-panel>
             <sl-tab-panel name="output">
-              <codemirror-editor id="html-output"></codemirror-editor>
+              <codemirror-editor id="html-output" language-syntax="html"></codemirror-editor>
             </sl-tab-panel>
-          </sl-tab-group>          
+          </sl-tab-group>
 
           <sl-tab-group>
             <sl-tab slot="nav" panel="component">
@@ -103,10 +103,10 @@
             </sl-tab>
 
             <sl-tab-panel name="component">
-              <codemirror-editor id="css-output-component"></codemirror-editor>
+              <codemirror-editor id="css-output-component" language-syntax="css"></codemirror-editor>
             </sl-tab-panel>
             <sl-tab-panel name="global">
-              <codemirror-editor id="css-output-global"></codemirror-editor>
+              <codemirror-editor id="css-output-global" language-syntax="css"></codemirror-editor>
             </sl-tab-panel>
           </sl-tab-group>
         </section>

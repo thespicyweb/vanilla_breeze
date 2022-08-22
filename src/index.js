@@ -13,48 +13,12 @@ import '@shoelace-style/shoelace/dist/components/switch/switch.js';
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
 setBasePath('/shoelace/dist');
 
-import { basicSetup, EditorView } from "codemirror"
-import { html } from "@codemirror/lang-html"
-import { css } from "@codemirror/lang-css"
+import "./codemirror-editor"
 
-const scrollingEditor = EditorView.theme({
-  "&": {height: "100%"},
-  ".cm-scroller": {overflow: "auto", fontFamily: "inherit"}
-})
-
-const htmlView = new EditorView({
-  doc: document.querySelector("#html-source > template").innerHTML.trim(),
-  extensions: [basicSetup, html(), EditorView.lineWrapping, scrollingEditor],
-  parent: document.querySelector("#html-source")
-})
-window.htmlView = htmlView
-const getHTMLValue = () => htmlView.state.doc.toString()
-const setHTMLValue = (val) => htmlView.dispatch({changes: {from: 0, to: htmlView.state.doc.length, insert: val}})
-
-const htmlOutputView = new EditorView({
-  extensions: [basicSetup, html(), EditorView.lineWrapping, scrollingEditor],
-  parent: document.querySelector("#html-output")
-})
-const getHTMLOutputValue = () => htmlOutputView.state.doc.toString()
-const setHTMLOutputValue = (val) => {
-  htmlOutputView.dispatch({changes: {from: 0, to: htmlOutputView.state.doc.length, insert: val}})
-  document.querySelector("#html-tabs").show("output")
-}
-
-const cssGlobalView = new EditorView({
-  extensions: [basicSetup, css(), EditorView.lineWrapping, scrollingEditor],
-  parent: document.querySelector("#css-output-global")
-})
-const getCSSGlobalValue = () => cssGlobalView.state.doc.toString()
-const setCSSGlobalValue = (val) => cssGlobalView.dispatch({changes: {from: 0, to: cssGlobalView.state.doc.length, insert: val}})
-
-const cssComponentView = new EditorView({
-  extensions: [basicSetup, css(), EditorView.lineWrapping, scrollingEditor],
-  parent: document.querySelector("#css-output-component")
-})
-const getCSSComponentValue = () => cssComponentView.state.doc.toString()
-const setCSSComponentValue = (val) => cssComponentView.dispatch({changes: {from: 0, to: cssComponentView.state.doc.length, insert: val}})
-
+const sourceHTML = () => document.querySelector("#html-source")
+const outputHTML = () => document.querySelector("#html-output")
+const globalCSS = () => document.querySelector("#css-output-global")
+const componentCSS = () => document.querySelector("#css-output-component")
 
 const classesForNode = (node) => {
   if (typeof node.className === "object") { // svg
@@ -71,8 +35,8 @@ const showPreview = () => {
   const html = `
     <html>
       <head>
-        <style>${getCSSGlobalValue()}</style>
-        <style>${getCSSComponentValue()}</style>
+        <style>${globalCSS().value}</style>
+        <style>${componentCSS().value}</style>
         <style>
           body.dark {
             background: var(--tw-color-gray-900);
@@ -80,7 +44,7 @@ const showPreview = () => {
         </style>
       </head>
       <body style="display: flex; align-items: center; justify-content: center; height: 100vh;">
-        ${getHTMLOutputValue()}
+        ${outputHTML().value}
       </body>
     </html>
   `;
@@ -103,7 +67,7 @@ document.querySelector("#convert").addEventListener("click", async (e) => {
   const rootElName = selectorType === "element" ? componentName : "tailwind-conversion"
 
   const parser = new DOMParser()
-  const doc = parser.parseFromString(`<${rootElName}>${getHTMLValue()}</${rootElName}>`, "text/html")
+  const doc = parser.parseFromString(`<${rootElName}>${sourceHTML().value}</${rootElName}>`, "text/html")
 
   const rootEl = doc.querySelector(rootElName)
 
@@ -147,10 +111,8 @@ document.querySelector("#convert").addEventListener("click", async (e) => {
 
     if (currentNode.hasAttribute("vb-ignore")) {
       same = true
-//      uniq = false
       currentNode.removeAttribute("vb-ignore")
     } else if (uniqItems.length > 0) {
-      console.info("OH, uniqItems!", cssSelector, uniqItems, classesForNode(currentNode))
       let lastNodeClasses = null
       let finalAdvance = false
       uniqItems.forEach(uniqItem => {
@@ -208,10 +170,11 @@ document.querySelector("#convert").addEventListener("click", async (e) => {
 
   if (selectorType === "class") {
     [...rootEl.children].forEach(node => node.classList.add(componentName))
-    setHTMLOutputValue(rootEl.innerHTML)
+    outputHTML().value = rootEl.innerHTML
   } else if (selectorType === "element") {
-    setHTMLOutputValue(rootEl.outerHTML)
+    outputHTML().value = rootEl.outerHTML
   }
+  document.querySelector("#html-tabs").show("output")
 
   let cssOutput = []
   nodeList.forEach(nodeData => {
@@ -238,13 +201,10 @@ document.querySelector("#convert").addEventListener("click", async (e) => {
 
   const outputParts = text.split("/* --CUSTOM-- */")
 
-  setCSSGlobalValue(outputParts[0].trim())
-  setCSSComponentValue(outputParts[1] ? outputParts[1].trim() : "")
+  globalCSS().value = outputParts[0].trim()
+  componentCSS().value = outputParts[1] ? outputParts[1].trim() : ""
 
   showPreview()
 
   e.target.loading = false
 })
-
-
-
