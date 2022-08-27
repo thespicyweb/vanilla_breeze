@@ -34,5 +34,10 @@
       "tw/*"
     ],
     "delay": 300
+  },
+  "prettier": {
+    "singleQuote": false,
+    "printWidth": 100,
+    "semi": false
   }
 }
