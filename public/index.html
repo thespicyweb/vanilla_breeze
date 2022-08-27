@@ -22,43 +22,63 @@
     <main>
       <main-editors>
         <section>
-          <sl-card style="display:block">
-            <sl-input
-              label="What would you like to call your component?"
-              id="component-name"
-              value="my-alert"
-              style="margin-block-end: var(--size-3);"
-            ></sl-input>
+          <sl-tab-group>
+            <sl-tab slot="nav" panel="basic">
+              <label>Start Here</label>
+            </sl-tab>
+            <sl-tab slot="nav" panel="advanced">
+              <label>Advanced Options</label>
+            </sl-tab>
+            
+            <sl-tab-panel name="basic">
+              <sl-card style="display:block">
+                <sl-input
+                  label="What would you like to call your component?"
+                  id="component-name"
+                  value="my-alert"
+                  style="margin-block-end: var(--size-3);"
+                ></sl-input>
 
-            <label class="label" for="selector-type">
-              Choose the form of the selector:
-            </label>
+                <label class="label" for="selector-type">
+                  Choose the form of the selector:
+                </label>
 
-            <sl-radio-group label="Selector Type" id="selector-type" value="class" style="margin-block-end: var(--size-3)">
-              <sl-tooltip content="div.component-name">
-                <sl-radio-button size="small" value="class">Class</sl-radio-button>
-              </sl-tooltip>
-              <sl-tooltip content="component-name > div">
-                <sl-radio-button size="small" value="element">Custom Element Wrapper</sl-radio-button>
-              </sl-tooltip>
-              <sl-tooltip content="Coming Soon!">
-                <sl-radio-button size="small" value="element" disabled>Web Component + Shadow DOM</sl-radio-button>
-              </sl-tooltip>
-            </sl-radio-group>
+                <sl-radio-group label="Selector Type" id="selector-type" value="class">
+                  <sl-tooltip content="div.component-name">
+                    <sl-radio-button size="small" value="class">Class</sl-radio-button>
+                  </sl-tooltip>
+                  <sl-tooltip content="component-name > div">
+                    <sl-radio-button size="small" value="element">Custom Element Wrapper</sl-radio-button>
+                  </sl-tooltip>
+                  <sl-tooltip content="Coming Soon!">
+                    <sl-radio-button size="small" value="element" disabled>Web Component + Shadow DOM</sl-radio-button>
+                  </sl-tooltip>
+                </sl-radio-group>
+              </sl-card>
+            </sl-tab-panel>
+            <sl-tab-panel name="advanced">
+              <sl-card style="display: block">
+                <label class="label" for="combinator">
+                  Selector Combinator:
+                </label>
+  
+                <sl-radio-group label="Combinator" id="combinator" value="child" style="margin-block-end: var(--size-3)">
+                  <sl-tooltip content="more accurate, less flexible">
+                    <sl-radio-button size="small" value="child">Child Combinator (>)</sl-radio-button>
+                  </sl-tooltip>
+                  <sl-tooltip content="more flexible, less accurate">
+                    <sl-radio-button size="small" value="descendant">Descendant Combinator</sl-radio-button>
+                  </sl-tooltip>
+                </sl-radio-group>
 
-            <label class="label" for="selector-type">
-              And the combinator:
-            </label>
-
-            <sl-radio-group label="Combinator" id="combinator" value="child">
-              <sl-tooltip content="more accurate, less flexible">
-                <sl-radio-button size="small" value="child">Child Combinator (>)</sl-radio-button>
-              </sl-tooltip>
-              <sl-tooltip content="more flexible, less accurate">
-                <sl-radio-button size="small" value="descendant">Descendant Combinator</sl-radio-button>
-              </sl-tooltip>
-            </sl-radio-group>
-          </sl-card>
+                <sl-input
+                  label="CSS Variable Prefix"
+                  id="variable-prefix"
+                  value="tw"
+                ></sl-input>
+              </sl-card>
+            </sl-tab-panel>
+          </sl-tab-group>
 
           <br />
 

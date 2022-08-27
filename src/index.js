@@ -193,6 +193,8 @@ document.querySelector("#convert").addEventListener("click", async (e) => {
 
   const formData = new FormData()
   formData.append("source", cssOutputStr)
+  formData.append("prefix", document.querySelector("#variable-prefix").value)
+  // formData.append("options", JSON.stringify(options))
   const response = await fetch("/tw-convert", {
     method: "POST",
     body: formData
