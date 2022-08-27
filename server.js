@@ -139,7 +139,7 @@ fastify
     let unknownUtilities = []
     let result = null
 
-    const options = JSON.parse(optionsJSON)
+    //const options = JSON.parse(optionsJSON)
     const newTwConfig = cloneDeep(defaultConfig)
     newTwConfig.theme.referenceColors = ({ colors }) => ({
       inherit: colors.inherit,
