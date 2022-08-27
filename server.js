@@ -140,6 +140,7 @@ fastify
     let result = null
 
     //const options = JSON.parse(optionsJSON)
+    /** @type {import("tailwindcss").Config} */
     const newTwConfig = cloneDeep(defaultConfig)
     newTwConfig.theme.referenceColors = ({ colors }) => ({
       inherit: colors.inherit,
@@ -192,8 +193,7 @@ fastify
     newTwConfig.theme.fontWeight = twVarConfig.fontWeight(req.body.prefix, defaultTheme)
     newTwConfig.theme.lineHeight = twVarConfig.lineHeight(req.body.prefix, defaultTheme)
     newTwConfig.theme.borderRadius = twVarConfig.borderRadius(req.body.prefix, defaultTheme)
-
-    //newTwConfig.darkMode = "media"
+    newTwConfig.darkMode = "class"
 
     while (!completed && iterations < 20) {
       iterations++
