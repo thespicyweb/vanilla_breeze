@@ -65,6 +65,10 @@ footer {
   margin-block-end: var(--size-8);
 }
 
+footer p {
+  color: var(--gray-6);
+}
+
 section {
   margin-block: var(--size-6);
 }
@@ -99,4 +103,12 @@ label.label, sl-input::part(form-control-label) {
   color: var(--gray-7);
   font-size: var(--font-size-1);
   margin-bottom: var(--size-2);
+}
+
+sl-dialog {
+  --width: 40rem;
+}
+
+sl-dialog p {
+  font-size: var(--font-size-2);
 }

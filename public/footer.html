@@ -1,0 +1,30 @@
+<sl-dialog label="Customize the CSS variable prefix" id="variable-prefix-help">
+  <p>The prefix is <code>tw</code></p>
+
+  <sl-button slot="footer" variant="primary" onclick="this.closest('sl-dialog').hide()">OK</sl-button>
+</sl-dialog>
+
+<sl-dialog label="How to add extra colors" id="extra-colors-help">
+  <p>You can write or paste in JSON to add extra colors or customize existing colors for use in the Tailwind theme. For example:</p>
+
+  <pre><code>
+{
+"peachy": {
+"50": "#ffcba9",
+"100": "#ffc19f",
+"200": "#ffb795",
+"300": "#ffad8b",
+"400": "#f8a381",
+"500": "#ee9977",
+"600": "#e48f6d",
+"700": "#da8563",
+"800": "#d07b59",
+"900": "#c6714f"
+}
+}
+  </code></pre>
+
+  <p>Then you can write classes like <code>text-peachy-300</code> or <code>bg-peachy-700</code> in the source HTML, and you'll get color variables in the CSS output.</p>
+
+  <sl-button slot="footer" variant="primary" onclick="this.closest('sl-dialog').hide()">OK</sl-button>
+</sl-dialog>

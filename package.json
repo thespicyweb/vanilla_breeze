@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
@@ -15,6 +16,7 @@
     "@fastify/static": "^6.5.0",
     "@shoelace-style/shoelace": "^2.0.0-beta.81",
     "codemirror": "^6.0.1",
+    "deepmerge": "^4.2.2",
     "fastify": "^4.4.0"
   },
   "devDependencies": {

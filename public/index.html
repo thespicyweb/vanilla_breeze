@@ -19,134 +19,11 @@
       <p>Convert Tailwind CSS to Semantic CSS</p>
     </header>
 
-    <main>
-      <main-editors>
-        <section>
-          <sl-tab-group>
-            <sl-tab slot="nav" panel="basic">
-              <label>Start Here</label>
-            </sl-tab>
-            <sl-tab slot="nav" panel="advanced">
-              <label>Advanced Options</label>
-            </sl-tab>
-            
-            <sl-tab-panel name="basic">
-              <sl-card style="display:block">
-                <sl-input
-                  label="What would you like to call your component?"
-                  id="component-name"
-                  value="my-alert"
-                  style="margin-block-end: var(--size-3);"
-                ></sl-input>
-
-                <label class="label" for="selector-type">
-                  Choose the form of the selector:
-                </label>
-
-                <sl-radio-group label="Selector Type" id="selector-type" value="class">
-                  <sl-tooltip content="div.component-name">
-                    <sl-radio-button size="small" value="class">Class</sl-radio-button>
-                  </sl-tooltip>
-                  <sl-tooltip content="component-name > div">
-                    <sl-radio-button size="small" value="element">Custom Element Wrapper</sl-radio-button>
-                  </sl-tooltip>
-                  <sl-tooltip content="Coming Soon!">
-                    <sl-radio-button size="small" value="element" disabled>Web Component + Shadow DOM</sl-radio-button>
-                  </sl-tooltip>
-                </sl-radio-group>
-              </sl-card>
-            </sl-tab-panel>
-            <sl-tab-panel name="advanced">
-              <sl-card style="display: block">
-                <label class="label" for="combinator">
-                  Selector Combinator:
-                </label>
-  
-                <sl-radio-group label="Combinator" id="combinator" value="child" style="margin-block-end: var(--size-3)">
-                  <sl-tooltip content="more accurate, less flexible">
-                    <sl-radio-button size="small" value="child">Child Combinator (>)</sl-radio-button>
-                  </sl-tooltip>
-                  <sl-tooltip content="more flexible, less accurate">
-                    <sl-radio-button size="small" value="descendant">Descendant Combinator</sl-radio-button>
-                  </sl-tooltip>
-                </sl-radio-group>
-
-                <sl-input
-                  label="CSS Variable Prefix"
-                  id="variable-prefix"
-                  value="tw"
-                ></sl-input>
-              </sl-card>
-            </sl-tab-panel>
-          </sl-tab-group>
-
-          <br />
-
-          <div style="text-align: center">
-            <sl-button variant="success" size="large" id="convert">
-              Run Conversion
-              <label slot="suffix" style="font-size:175%; margin-block-start: var(--size-2)"><sl-icon name="play-fill"></sl-icon></label>
-            </sl-button>
-          </div>
-        </section>
-
-        <section>
-          <sl-tab-group id="html-tabs">
-            <sl-tab slot="nav" panel="source">
-              <label>HTML <strong>Source</strong></label>
-            </sl-tab>
-            <sl-tab slot="nav" panel="output">
-              <label>HTML <strong>Output</strong></label>
-            </sl-tab>
-
-            <sl-tab-panel name="source">
-              <codemirror-editor id="html-source" language-syntax="html">
-                <!-- keep the indentation like this: -->
-                <template>
-<div class="p-4 px-6 mb-4 text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
-  <span class="font-bold">You did it!</span> Now you can play around with the HTML source and other options to see the results.
-</div>
-                </template>
-              </codemirror-editor>
-            </sl-tab-panel>
-            <sl-tab-panel name="output">
-              <codemirror-editor id="html-output" language-syntax="html"></codemirror-editor>
-            </sl-tab-panel>
-          </sl-tab-group>
-
-          <sl-tab-group>
-            <sl-tab slot="nav" panel="component">
-              <label><strong>Component</strong> Vanilla CSS</label>
-            </sl-tab>
-            <sl-tab slot="nav" panel="global">
-              <label><strong>Global</strong> Tokens + Reset CSS</label>
-            </sl-tab>
-
-            <sl-tab-panel name="component">
-              <codemirror-editor id="css-output-component" language-syntax="css"></codemirror-editor>
-            </sl-tab-panel>
-            <sl-tab-panel name="global">
-              <codemirror-editor id="css-output-global" language-syntax="css"></codemirror-editor>
-            </sl-tab-panel>
-          </sl-tab-group>
-        </section>
-      </main-editors>
-      <main-preview>
-        <section>
-          <sl-switch id="toggle-dark-mode">Dark Mode</sl-switch>
-        </section>
-
-        <section id="preview">
-          <iframe></iframe>
-        </section>
-
-        <sl-button id="show-preview">Refresh Preview</sl-button>
-      </main-preview>
-    </main>
+    <sl-include id="main-include" src="/main.html" style="min-height: 50vh"></sl-include>
 
     <footer>
       <p>
-        Using Tailwind v3.1.8. Built with Open Props, Shoelace, Fastify, and esbuild.
+        Using Tailwind v3.1.8. Built with <a href="https://open-props.style">Open Props</a>, <a href="https://shoelace.style">Shoelace</a>, <a href="https://codemirror.net">CodeMirror</a>, <a href="https://www.fastify.io">Fastify</a>, and <a href="https://esbuild.github.io">esbuild</a>.
       </p>
 
       <p>Open source repo coming soon!</p>
@@ -156,5 +33,7 @@
 
       <p><small><a href="https://www.flaticon.com/free-icons/cocktail" target="_blank">Cocktail icon created by Freepik - Flaticon</a></small></p>
     </footer>
+
+    <sl-include src="/footer.html"></sl-include>
   </body>
 </html>

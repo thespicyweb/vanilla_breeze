@@ -1,4 +1,5 @@
-const { parseColor } = require("tailwindcss/lib/util/color")
+import twColor from "tailwindcss/lib/util/color.js"
+const { parseColor } = twColor
 
 /* Converts HEX color to RGB */
 const toRGB = (value) => parseColor(value).color.join(" ")
@@ -56,9 +57,4 @@ function extractFamilyVars(globalPrefix, prefix, varObj) {
   }, {})
 }
 
-module.exports = {
-  extractColorVars,
-  extractVars,
-  extractFamilyVars,
-  extractFontVars,
-}
+export { extractVars, extractColorVars, extractFamilyVars, extractFontVars }

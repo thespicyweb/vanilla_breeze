@@ -1,4 +1,33 @@
-function breakpoints(screens) {
+import merge from "deepmerge"
+import twColors from "tailwindcss/lib/public/colors.js"
+
+const filterDeprecatedDefaultColors = (colors) => {
+  const filteredColors = { ...colors }
+  delete filteredColors["lightBlue"]
+  delete filteredColors["warmGray"]
+  delete filteredColors["trueGray"]
+  delete filteredColors["coolGray"]
+  delete filteredColors["blueGray"]
+  return filteredColors
+}
+
+const defaultColors = filterDeprecatedDefaultColors(twColors.default)
+
+const primaryColors = {
+  50: "#eff6ff",
+  100: "#dbeafe",
+  200: "#bfdbfe",
+  300: "#93c5fd",
+  400: "#60a5fa",
+  500: "#3b82f6",
+  600: "#2563eb",
+  700: "#1d4ed8",
+  800: "#1e40af",
+  900: "#1e3a8a",
+  DEFAULT: "#3056d3",
+}
+
+const breakpoints = (screens) => {
   return Object.keys(screens)
     .filter((key) => typeof screens[key] === "string")
     .reduce(
@@ -10,7 +39,33 @@ function breakpoints(screens) {
     )
 }
 
-function colors(globalPrefix) {
+const colorVarsIterator = (globalPrefix, colorObj, colorGroup = "") => {
+  const obj = {}
+  Object.entries(colorObj).forEach(([colorKey, value]) => {
+    const cssVariable =
+      colorKey === "DEFAULT"
+        ? `var(--${globalPrefix}-color${colorGroup})`
+        : `var(--${globalPrefix}-color${colorGroup}-${colorKey})`
+
+    if (typeof value === "string") {
+      if (["inherit", "current", "transparent"].includes(colorKey)) {
+        obj[colorKey] = cssVariable
+      } else {
+        obj[colorKey] = `rgb(${cssVariable} / <alpha-value>)`
+      }
+    } else {
+      obj[colorKey] = colorVarsIterator(globalPrefix, value, `-${colorKey}`)
+    }
+  })
+  return obj
+}
+
+function colors(globalPrefix, theme, options) {
+  return colorVarsIterator(
+    globalPrefix,
+    merge({ ...defaultColors, primary: primaryColors }, options.extraColors ?? {})
+  )
+
   // TODO, make this dynamic!
   return {
     inherit: `var(--${globalPrefix}-color-inherit)`,
@@ -415,7 +470,7 @@ function fontWeight(globalPrefix, theme) {
 }
 
 function borderRadius(globalPrefix, theme) {
-  obj = {}
+  const obj = {}
   Object.entries(theme.borderRadius).forEach(([key, value]) => {
     const cssVariable = `--${globalPrefix}-border-radius-${key.toLowerCase()}`
 
@@ -434,7 +489,9 @@ function lineHeight(globalPrefix, theme) {
   return obj
 }
 
-module.exports = {
+export {
+  primaryColors,
+  defaultColors,
   colors,
   spacing,
   columns,
