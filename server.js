@@ -44,6 +44,11 @@ app
     prefix: "/shoelace/",
     decorateReply: false, // the reply decorator has been added by the first plugin registration
   })
+  .register(fastifyStatic, {
+    root: path.join(__dirname, "node_modules", "open-props"),
+    prefix: "/open-props/",
+    decorateReply: false, // the reply decorator has been added by the first plugin registration
+  })
   .register(fastifyMultipart, {
     addToBody: true,
   })
@@ -100,7 +105,7 @@ app
 
 const start = async () => {
   try {
-    await app.listen({ port: process.env["PORT"] || 4001 })
+    await app.listen({ host: "0.0.0.0", port: process.env["PORT"] || 4001 })
   } catch (err) {
     app.log.error(err)
     process.exit(1)
