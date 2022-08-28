@@ -1,21 +1,3 @@
-import "@shoelace-style/shoelace/dist/components/button/button.js"
-import "@shoelace-style/shoelace/dist/components/dialog/dialog.js"
-import "@shoelace-style/shoelace/dist/components/include/include.js"
-import "@shoelace-style/shoelace/dist/components/input/input.js"
-import "@shoelace-style/shoelace/dist/components/radio-button/radio-button.js"
-import "@shoelace-style/shoelace/dist/components/radio-group/radio-group.js"
-import "@shoelace-style/shoelace/dist/components/tab-group/tab-group.js"
-import "@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js"
-import "@shoelace-style/shoelace/dist/components/tab/tab.js"
-import "@shoelace-style/shoelace/dist/components/textarea/textarea.js"
-import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js"
-import "@shoelace-style/shoelace/dist/components/icon/icon.js"
-import "@shoelace-style/shoelace/dist/components/card/card.js"
-import "@shoelace-style/shoelace/dist/components/switch/switch.js"
-
-import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path.js"
-setBasePath("/shoelace/dist")
-
 import "./codemirror-editor"
 
 const classesForNode = (node) => {
@@ -27,33 +9,6 @@ const classesForNode = (node) => {
   }
 }
 
-const showPreview = () => {
-  const preview = document.querySelector("#preview")
-  preview.innerHTML = ""
-
-  const html = `
-    <html>
-      <head>
-        <style>${globalCSS().value}</style>
-        <style>${componentCSS().value}</style>
-        <style>
-          body.dark {
-            background: rgb(17 24 39);
-          }
-        </style>
-      </head>
-      <body style="display: flex; align-items: center; justify-content: center; height: 100vh;" class="${
-        document.querySelector("#toggle-dark-mode").checked ? "dark" : ""
-      }">
-        ${outputHTML().value}
-      </body>
-    </html>
-  `
-  const iframe = document.createElement("iframe")
-  iframe.srcdoc = html
-  preview.appendChild(iframe)
-}
-
 // Wait for main
 document.querySelector("#main-include").addEventListener("sl-load", (e) => {
   if (e.target != e.currentTarget) return
@@ -62,6 +17,33 @@ document.querySelector("#main-include").addEventListener("sl-load", (e) => {
   const outputHTML = () => document.querySelector("#html-output")
   const globalCSS = () => document.querySelector("#css-output-global")
   const componentCSS = () => document.querySelector("#css-output-component")
+
+  const showPreview = () => {
+    const preview = document.querySelector("#preview")
+    preview.innerHTML = ""
+  
+    const html = `
+      <html>
+        <head>
+          <style>${globalCSS().value}</style>
+          <style>${componentCSS().value}</style>
+          <style>
+            body.dark {
+              background: rgb(17 24 39);
+            }
+          </style>
+        </head>
+        <body style="display: flex; align-items: center; justify-content: center; height: 100vh;" class="${
+          document.querySelector("#toggle-dark-mode").checked ? "dark" : ""
+        }">
+          ${outputHTML().value}
+        </body>
+      </html>
+    `
+    const iframe = document.createElement("iframe")
+    iframe.srcdoc = html
+    preview.appendChild(iframe)
+  }
 
   document.querySelector("#toggle-dark-mode").addEventListener("click", (e) => {
     document

@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "build": "esbuild --bundle --format=esm src/index.js --outdir=public/js",
+    "build": "esbuild --bundle --format=esm src/index.js src/sl.js --outdir=public/js",
     "twconvert": "tailwindcss -i ./tw/source.css -o ./tw/dest.css"
   },
   "dependencies": {
