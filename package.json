@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
+    "deploy": "npm run build -- --minify && npm run start",
     "build": "esbuild --bundle --format=esm src/index.js src/sl.js --outdir=public/js",
     "twconvert": "tailwindcss -i ./tw/source.css -o ./tw/dest.css"
   },
@@ -17,7 +18,8 @@
     "@shoelace-style/shoelace": "^2.0.0-beta.81",
     "codemirror": "^6.0.1",
     "deepmerge": "^4.2.2",
-    "fastify": "^4.4.0"
+    "fastify": "^4.4.0",
+    "open-props": "^1.4.14"
   },
   "devDependencies": {
     "@fastify/formbody": "^7.0.1",
