@@ -9,10 +9,7 @@ const classesForNode = (node) => {
   }
 }
 
-// Wait for main
-document.querySelector("#main-include").addEventListener("sl-load", (e) => {
-  if (e.target != e.currentTarget) return
-
+const app = () => {
   const sourceHTML = () => document.querySelector("#html-source")
   const outputHTML = () => document.querySelector("#html-output")
   const globalCSS = () => document.querySelector("#css-output-global")
@@ -36,7 +33,7 @@ document.querySelector("#main-include").addEventListener("sl-load", (e) => {
         <body style="display: flex; align-items: center; justify-content: center; height: 100vh;" class="${
           document.querySelector("#toggle-dark-mode").checked ? "dark" : ""
         }">
-          ${outputHTML().value}
+          <main>${outputHTML().value}</main>
         </body>
       </html>
     `
@@ -219,4 +216,18 @@ document.querySelector("#main-include").addEventListener("sl-load", (e) => {
 
     e.target.loading = false
   })
-}) // end of main event handler
+}
+
+if (document.querySelector("body > main")) {
+  // Wait a tick
+  setTimeout(() => {
+    app()
+  })
+} else {
+  // Wait for main
+  document.querySelector("#main-include").addEventListener("sl-load", (e) => {
+    if (e.target != e.currentTarget) return
+
+    app()
+  }) // end of main event handler
+}
