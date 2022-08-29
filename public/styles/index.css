@@ -69,12 +69,13 @@ a {
 
 footer {
   text-align: center;
-  margin-block-start: calc(var(--size-9) + var(--size-9));
+  margin-block-start: calc(var(--size-10) + var(--size-9));
   margin-block-end: var(--size-8);
 }
 
 footer p {
   color: var(--gray-6);
+  line-height: var(--font-lineheight-2);
 }
 
 section {
