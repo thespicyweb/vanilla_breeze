@@ -36,6 +36,13 @@ const app = fastify({
 })
 
 app
+  .addHook("onRequest", (request, reply, done) => {
+    if (!request.hostname.startsWith("www")) {
+      reply.redirect(`${request.protocol}://www.${request.hostname}${request.url}`)
+    } else {
+      done()
+    }
+  })
   .register(fastifyStatic, {
     root: path.join(__dirname, "public"),
   })

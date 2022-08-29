@@ -1,4 +1,4 @@
-@import "https://unpkg.com/open-props";
+@import "/open-props/open-props.min.css";
 @import "/shoelace/dist/themes/light.css";
 @import "variables.css";
 
@@ -10,6 +10,7 @@ body {
 
 header {
   text-align: center;
+  margin-block-end: var(--size-3);
 }
 
 main {
@@ -51,7 +52,14 @@ h1 {
 p {
   font-size: var(--paragraph-size);
   color: var(--gray-7);
+}
+
+p, pre {
   margin-block: var(--size-3) var(--size-4);
+}
+
+pre {
+  overflow: auto;
 }
 
 a {
@@ -85,16 +93,17 @@ iframe {
   background: white;
 }
 
+code {
+  color: var(--indigo-9);
+  font-family: var(--font-mono);
+  font-size: inherit;
+  letter-spacing: -0.01em;
+}
+
 sl-tooltip {
   --show-delay: 400ms;
 }
 
-/*
-sl-radio-button {
-  background: white;
-  border-radius: var(--sl-input-border-radius-small);
-}
-*/
 sl-radio-button::part(button) {
   font-weight: normal;
 }
@@ -106,9 +115,18 @@ label.label, sl-input::part(form-control-label) {
 }
 
 sl-dialog {
-  --width: 40rem;
+  --width: 85ch;
 }
 
-sl-dialog p {
+sl-dialog::part(title) {
+  font-weight: bold;
+}
+
+sl-dialog p, sl-dialog pre {
   font-size: var(--font-size-2);
+  line-height: var(--font-lineheight-2);
+}
+
+sl-dialog p:first-of-type {
+  margin-block-start: 0;
 }

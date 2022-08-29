@@ -85,6 +85,7 @@ const app = () => {
 
     let currentNode = treeWalker.currentNode
     let combinator = document.querySelector("#combinator").value == "child" ? " > " : " "
+    let uniqSuffix = document.querySelector("#unique-suffix").value
 
     while (currentNode) {
       let uniqClassName = null
@@ -108,6 +109,8 @@ const app = () => {
           !item.uniqClassName
       )
 
+      // This algorithm is pretty tricky, so at this point I would be hesitant to change anything
+      // unless we're _really_ sure it's a major improvement =)
       if (currentNode.hasAttribute("vb-ignore")) {
         same = true
         currentNode.removeAttribute("vb-ignore")
@@ -116,11 +119,11 @@ const app = () => {
         let finalAdvance = false
         uniqItems.forEach((uniqItem) => {
           if (!uniqItem.uniqClassName) {
-            if (uniqItem.node.getAttribute("vb-class")) {
-              uniqItem.uniqClassName = `${componentName}__${uniqItem.node.getAttribute("vb-class")}`
-              uniqItem.node.removeAttribute("vb-class")
+            if (uniqItem.node.getAttribute("vb-suffix")) {
+              uniqItem.uniqClassName = `${componentName}__${uniqItem.node.getAttribute("vb-suffix")}`
+              uniqItem.node.removeAttribute("vb-suffix")
             } else {
-              uniqItem.uniqClassName = `${componentName}__uniq${uniqCount}`
+              uniqItem.uniqClassName = `${componentName}__${uniqSuffix}${uniqCount}`
               if (lastNodeClasses && classesForNode(currentNode) != lastNodeClasses) {
                 finalAdvance = false
                 uniqCount++
@@ -136,19 +139,17 @@ const app = () => {
           uniqCount++
         }
 
-        if (currentNode.getAttribute("vb-class")) {
-          uniqClassName = `${componentName}__${currentNode.getAttribute("vb-class")}`
-          currentNode.removeAttribute("vb-class")
-        } else {
-          uniqClassName = `${componentName}__uniq${uniqCount}`
+        if (!currentNode.getAttribute("vb-suffix")) {
+          uniqClassName = `${componentName}__${uniqSuffix}${uniqCount}`
           uniqCount++
         }
-      } else if (currentNode.getAttribute("vb-class")) {
-        uniqClassName = `${componentName}__${currentNode.getAttribute("vb-class")}`
-        currentNode.removeAttribute("vb-class")
       }
 
-      //    if (!same) {
+      if (currentNode.getAttribute("vb-suffix")) {
+        uniqClassName = `${componentName}__${currentNode.getAttribute("vb-suffix")}`
+        currentNode.removeAttribute("vb-suffix")
+      }
+
       nodeList.push({
         node: currentNode,
         selector: cssSelector,
@@ -156,7 +157,6 @@ const app = () => {
         same,
         uniqClassName,
       })
-      //    }
 
       if (uniqClassName) {
         currentNode.setAttribute("class", uniqClassName)

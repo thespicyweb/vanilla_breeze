@@ -18,19 +18,35 @@
       <h1>Vanilla Breeze</h1>
 
       <p>Convert Tailwind CSS to Semantic CSS</p>
+
+      <div style="text-align:center">
+        <sl-tooltip content="Why would I want to do that?">
+          <sl-button
+            variant="success"
+            size="large"
+            outline
+            pill
+            onclick='this.closest("sl-tooltip").hide(); document.querySelector("#why-vanilla-breeze").show()'
+          >
+            🤔
+          </sl-button>
+        </sl-tooltip>
+      </div>
     </header>
 
     <sl-include id="main-include" src="/main.html" style="min-height: 50vh"></sl-include>
 
     <footer>
+      <p style="margin-block-end: var(--size-7)">
+        <sl-button size="large" variant="warning" pill outline href="https://github.com/thespicyweb/vanilla_breeze">
+          View This Repo on GitHub
+          <sl-icon name="github" slot="prefix"></sl-icon>
+        </sl-button>
+      </p>
+
       <p>
         Using Tailwind v3.1.8. Built with <a href="https://open-props.style">Open Props</a>, <a href="https://shoelace.style">Shoelace</a>, <a href="https://codemirror.net">CodeMirror</a>, <a href="https://www.fastify.io">Fastify</a>, and <a href="https://esbuild.github.io">esbuild</a>.
       </p>
-
-      <p>Open source repo coming soon!</p>
-      <!-- <p>
-        <a href="https://github.com/jaredcwhite/buildless-static-site">View This Repo on GitHub ➤</a>
-      </p> -->
 
       <p><small><a href="https://www.flaticon.com/free-icons/cocktail" target="_blank">Cocktail icon created by Freepik - Flaticon</a></small></p>
     </footer>

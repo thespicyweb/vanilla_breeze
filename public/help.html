@@ -1,14 +1,80 @@
-<sl-dialog label="Customize the CSS variable prefix" id="variable-prefix-help">
-  <p>The prefix is <code>tw</code></p>
+<sl-dialog label="The Case for Semantic CSS" id="why-vanilla-breeze">
+  <p><strong>Tailwind CSS</strong> is great for prototyping. There's also a large community of folks developing components and themes and design systems using Tailwind.</p>
 
-  <sl-button slot="footer" variant="primary" onclick="this.closest('sl-dialog').hide()">OK</sl-button>
+  <p>But Tailwind also brings with it a slew of challenges—fatal flaws even, depending on your taste. Some are endemic to utility classes in general, others are specific to Tailwind—not the least of which is that Tailwind is a bit like "<a href="https://en.wikipedia.org/wiki/Psycho_(1960_film)">Bates Motel</a>"—once you check in, you may never check out. <a href="https://en.wikipedia.org/wiki/Vendor_lock-in">Vendor lock-in</a> at it's finest! 😅</p>
+
+  <p>Many different articles have been written about these problems (<a href="https://www.spicyweb.dev/why-tailwind-isnt-for-me/" title="Why Tailwind Isn't for Me">here</a>, <a href="https://www.aleksandrhovhannisyan.com/blog/why-i-dont-like-tailwind-css/" title="Why I Don't Like Tailwind">here</a>, <a href="https://javascript.plainenglish.io/tailwind-is-an-anti-pattern-ed3f64f565f0" title="Tailwind is an Anti-Pattern">here</a>, <a href="https://blog.shimin.io/why-i-dont-use-tailwind-in-production/" title="Why I Don't Use Tailwind CSS in Production">here</a>, to name a few). I've also written an article <a href="https://www.spicyweb.dev/the-three-laws-of-utility-classes/">The Three Laws of Utility Classes</a> as a general overview of how one might rein in some of the excesses of <em>Utility Classes Gone Wild!</em> 😱</p>
+
+  <p><strong>Vanilla Breeze</strong> aims to provide an "escape hatch" for Tailwind—as well as lower the "switching costs" of moving away from Tailwind dramatically. Keep using Tailwind for what it's good at: facilitating rapid production of styled HTML using a cornucopia of well-documented design tokens. But then convert that HTML to semantic HTML + CSS, and suddenly you have <strong>completely portable, "vanilla" code</strong> which can be used in any project, anywhere, with any build system (or none at all!) with <em>zero reliance</em> on any Tailwind-specific library or configuration.</p>
+
+  <p>Keep an eye out for an article coming soon which lists out some reasons and uses cases for using <strong>Vanilla Breeze</strong> in your project or for educational purposes.</p>
+
+  <p>Thanks to our sponsor <a href="https://www.spicyweb.dev">The Spicy Web</a> for ensuring this tool is open source and will be forever free to use. <em>Enjoy!</em> 🎉</p>
+
+  <sl-button slot="footer" variant="primary" size="large" onclick="this.closest('sl-dialog').hide()">
+    <label slot="prefix" style="font-size:135%; margin-block-start: var(--size-1)"><sl-icon name="check-circle-fill"></sl-icon></label>
+    OK
+  </sl-button>
+</sl-dialog>
+
+<sl-dialog label="Components and selectors" id="selector-help">
+  <p>The output of <strong>Vanilla Breeze</strong> assumes the HTML source you're working with comprises a "component". It may in fact be logically the sum of several components composed together, which is something you'll need to consider, but for now let's assume you've written or pasted in one component.</p>
+
+  <p>In semantic CSS, every component needs a unique identifier. An "alert" component isn't the same as a "dialog" component isn't the same as a "badge" component.</p>
+
+  <p>You have the option of crafting a selector for this unique identifier in one of two ways: with a class name on the top-level tag, or by wrapping all of the markup in a custom element. Note that custom element names <em>must</em> always include at least one hyphen per the spec. Try the conversion with either method to get a feel for the difference.</p>
+
+  <p>In a future update to <strong>Vanilla Breeze</strong>, we will also provide an option for emitting the custom element as a valid web component, where the markup is located within a shadow DOM and styles are fully encapsulated. <em>Stay tuned.</em> 😎</p>
+
+  <sl-button slot="footer" variant="primary" size="large" onclick="this.closest('sl-dialog').hide()">
+    <label slot="prefix" style="font-size:135%; margin-block-start: var(--size-1)"><sl-icon name="check-circle-fill"></sl-icon></label>
+    OK
+  </sl-button>
+</sl-dialog>
+
+<sl-dialog label="Customize the CSS variable prefix" id="variable-prefix-help">
+  <p><strong>Vanilla Breeze</strong> starts every CSS custom property in the output stylesheet with a prefix so that everything lives within a proper namespace. So rather than have a variable name like <code>--size-6</code>, it's <code>--tw-size-6</code>. Tailwind itself uses a number of CSS variables which are likewise prefixed with <code>tw</code>.</p>
+
+  <p>However, you can change the prefix to something else if you'd prefer the output stylesheet to use something other than <code>tw</code>—perhaps to serve as the basis for a new design system.</p>
+
+  <sl-button slot="footer" variant="primary" size="large" onclick="this.closest('sl-dialog').hide()">
+    <label slot="prefix" style="font-size:135%; margin-block-start: var(--size-1)"><sl-icon name="check-circle-fill"></sl-icon></label>
+    OK
+  </sl-button>
+</sl-dialog>
+
+<sl-dialog label="Why a unique suffix is necessary" id="unique-suffix-help">
+  <p>
+    When converting HTML with only utility classes to a semantic structure with matching stylesheet, the parent-child relationship within the DOM becomes the default mechanism for matching styles to nodes. For simple examples, that can work fine as-is. A selector like <code>section > div > span</code> is sufficient if you have one type of span within one type of div within the section. But if you have multiple divs or spans with different utility classes at the same levels within the DOM tree, then the destination stylesheet will need to differentiate between those multiple variations.
+  </p>
+
+  <p>
+    <strong>Vanilla Breeze</strong> will automatically add a class for each variation which is a combination of the component name and a unique numbered suffix, such as <code>hero__unique1</code>. You can use something other than "unique" by changing the Automatic Suffix value.
+  </p>
+
+  <p>
+    Alternatively, you can update your source HTML with your own unique suffixes. By adding the <code>vb-suffix</code> attribute to one or more tags, you can control how the stylesheet handles these unique variations. In addition, you can add the <code>vb-ignore</code> attribute to certain tags to exclude them from affecting the stylesheet. Take this example:
+  </p>
+
+  <pre><code>&lt;div class=&quot;p-4 px-6 mb-4 text-green-700 bg-green-100 rounded-lg&quot;&gt;
+  &lt;span class=&quot;font-bold&quot; vb-suffix=&quot;bold-text&quot;&gt;I&apos;m Bold.&lt;/span&gt;
+  Some more text.
+  &lt;span class=&quot;font-bold text-red-400&quot; vb-suffix=&quot;bold-text&quot;&gt;Bold and red!&lt;/span&gt;
+  &lt;span class=&quot;text-purple-400&quot; vb-suffix=&quot;bold-text&quot; vb-ignore&gt;Purple?&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+
+  <p>Normally, all three <code>&lt;span&gt;</code> tags would get unique classes in the output stylesheet. But in this example, we've set all three spans to use the same suffix, so they'll end up both being bold and colored red (because the style rules accumulate). And because we've added <code>vb-ignore</code> to the third span, we don't get any purple text style rule (perhaps we just don't care about that particular unique style in the source HTML), and instead it's bold and red like the other spans.</p>
+
+  <sl-button slot="footer" variant="primary" size="large" onclick="this.closest('sl-dialog').hide()">
+    <label slot="prefix" style="font-size:135%; margin-block-start: var(--size-1)"><sl-icon name="check-circle-fill"></sl-icon></label>
+    OK
+  </sl-button>
 </sl-dialog>
 
 <sl-dialog label="How to add extra colors" id="extra-colors-help">
   <p>You can write or paste in JSON to add extra colors or customize existing colors for use in the Tailwind theme. For example:</p>
 
-  <pre><code>
-{
+  <pre><code>{
   "peachy": {
     "50": "#ffcba9",
     "100": "#ffc19f",
@@ -21,10 +87,12 @@
     "800": "#d07b59",
     "900": "#c6714f"
   }
-}
-  </code></pre>
+}</code></pre>
 
   <p>Then you can write classes like <code>text-peachy-300</code> or <code>bg-peachy-700</code> in the source HTML, and you'll get color variables in the CSS output.</p>
 
-  <sl-button slot="footer" variant="primary" onclick="this.closest('sl-dialog').hide()">OK</sl-button>
+  <sl-button slot="footer" variant="primary" size="large" onclick="this.closest('sl-dialog').hide()">
+    <label slot="prefix" style="font-size:135%; margin-block-start: var(--size-1)"><sl-icon name="check-circle-fill"></sl-icon></label>
+    OK
+  </sl-button>
 </sl-dialog>

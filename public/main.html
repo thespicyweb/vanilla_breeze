@@ -15,7 +15,7 @@
               label="What would you like to call your component?"
               id="component-name"
               value="my-alert"
-              style="margin-block-end: var(--size-3);"
+              style="margin-block-end: var(--size-6);"
             ></sl-input>
 
             <label class="label" for="selector-type">
@@ -33,6 +33,13 @@
                 <sl-radio-button size="small" value="element" disabled>Web Component + Shadow DOM</sl-radio-button>
               </sl-tooltip>
             </sl-radio-group>
+            <div style="text-align:right; margin-block-end: calc(0rem - var(--size-2))">
+              <sl-icon-button
+                name="question-circle-fill"
+                label="Help for component selectors"
+                onclick='document.querySelector("#selector-help").show()'
+              ></sl-icon-button>
+            </div>
           </sl-card>
         </sl-tab-panel>
         <sl-tab-panel name="advanced">
@@ -45,7 +52,7 @@
               label="Combinator"
               id="combinator"
               value="child"
-              style="margin-block-end: var(--size-3)"
+              style="margin-block-end: var(--size-6)"
             >
               <sl-tooltip content="more accurate, less flexible">
                 <sl-radio-button size="small" value="child">Child Combinator (>)</sl-radio-button>
@@ -65,6 +72,19 @@
                 name="question-circle-fill"
                 label="Help for variable prefix"
                 onclick='document.querySelector("#variable-prefix-help").show()'
+              ></sl-icon-button>
+            </div>
+
+            <sl-input
+              label="Automatic Suffix for Unique Classes"
+              id="unique-suffix"
+              value="unique"
+            ></sl-input>
+            <div style="text-align:right">
+              <sl-icon-button
+                name="question-circle-fill"
+                label="Help for unique classes"
+                onclick='document.querySelector("#unique-suffix-help").show()'
               ></sl-icon-button>
             </div>
 
@@ -103,9 +123,9 @@
           <codemirror-editor id="html-source" language-syntax="html">
             <!-- keep the indentation like this: -->
             <template>
-  <div class="p-4 px-6 mb-4 text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+<div class="p-4 px-6 mb-4 text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
   <span class="font-bold">You did it!</span> Now you can play around with the HTML source and other options to see the results.
-  </div>
+</div>
             </template>
           </codemirror-editor>
         </sl-tab-panel>
