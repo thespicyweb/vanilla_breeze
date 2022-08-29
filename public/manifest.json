@@ -1,0 +1,20 @@
+{
+    "name": "Vanilla Breeze",
+    "short_name": "Vanilla Breeze",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/",
+    "theme_color": "#f1f3f5",
+    "background_color": "#f1f3f5",
+    "display": "standalone"
+}
