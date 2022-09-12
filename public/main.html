@@ -132,6 +132,11 @@
         <sl-tab-panel name="output">
           <codemirror-editor id="html-output" language-syntax="html"></codemirror-editor>
         </sl-tab-panel>
+        <div style="display:none" id='copy'>
+          <div style="display:flex;justify-content:center;align-items:center;">
+            <sl-icon-button name="clipboard" label="Edit" style="font-size: 1.5rem;"></sl-icon-button>            
+          </div>
+        </div>
       </sl-tab-group>
 
       <sl-tab-group>
@@ -148,6 +153,11 @@
         <sl-tab-panel name="global">
           <codemirror-editor id="css-output-global" language-syntax="css"></codemirror-editor>
         </sl-tab-panel>
+        <div style="display:none" id='copy'>
+          <div style="display:flex;justify-content:center;align-items:center;">
+            <sl-icon-button name="clipboard" label="Edit" style="font-size: 1.5rem;"></sl-icon-button>
+        </div>
+        </div>
       </sl-tab-group>
     </section>
   </main-editors>
