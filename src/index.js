@@ -175,6 +175,42 @@ const app = () => {
     }
     document.querySelector("#html-tabs").show("output")
 
+    const showCopyBtn = () => {
+      const buttons = document.querySelectorAll('#copy');
+      buttons.forEach((button) => {
+          button.style.display = "block";
+          button.addEventListener("click", (e) => {
+              const parent = e.target.closest('sl-tab-group');
+              const child = parent.querySelector('[aria-selected = "true"]');
+              const outputType = child.getAttribute('panel');
+              console.log(outputType)
+              let text = '';
+              switch (outputType) {
+                  case 'output':
+                      text = rootEl.innerHTML;
+                      break;
+                  case 'global':
+                      text = globalCSS().value;
+                      break;
+                  case 'component':
+                      text = componentCSS().value;
+                      break;
+                  default:
+                      text = '';
+              }
+              navigator.clipboard.writeText(text)
+                  .then(() => {
+                      // Получилось!
+                  })
+                  .catch(err => {
+                      console.log('Something went wrong', err);
+                  });
+          })
+      })
+  }
+
+showCopyBtn();
+
     let cssOutput = []
     nodeList.forEach((nodeData) => {
       if (nodeData.classes !== "" && !nodeData.same) {
