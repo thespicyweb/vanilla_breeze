@@ -38,7 +38,7 @@ const app = fastify({
 app
   .addHook("onRequest", (request, reply, done) => {
     // We'll redirect everything to www. — except for the manifest which is a healthcheck for Railway
-    if (!request.hostname.startsWith("www") && !request.url.startsWith("/manifest.json")) {
+    if (!request.hostname.includes(".local") && !request.hostname.startsWith("www") && !request.url.startsWith("/manifest.json")) {
       reply.redirect(`${request.protocol}://www.${request.hostname}${request.url}`)
     } else {
       done()

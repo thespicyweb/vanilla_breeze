@@ -225,8 +225,8 @@ if (document.querySelector("body > main")) {
   })
 } else {
   // Wait for main
-  document.querySelector("#main-include").addEventListener("sl-load", (e) => {
-    if (e.target != e.currentTarget) return
+  document.querySelector("#main-include").addEventListener("sl-load", event => {
+    if (event.eventPhase !== 2) return;
 
     app()
   }) // end of main event handler
