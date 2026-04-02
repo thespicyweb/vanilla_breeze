@@ -1,5 +1,8 @@
 # Vanilla Breeze
 
+> [!NOTE]
+> **2026 Update:** Tailwind 4 has largely eliminated the need to use a tool like this. It's a major rewrite oriented around real CSS variables and a CSS-based config. This a welcome development, and while technically there's still a use case for wanting to convert HTML-based utility classes to a stylesheet, we expect most Tailwind 4+ users will either author CSS using the new CSS variables from scratch, or use off-the-shelf TW-based components which are still using utility classes and not care. Either way, <strong>Vanilla Breeze</strong> was a fun hack and served its purpose in the pre-v4 days. I'm archiving the site & this repo. <em>Cheers! -Jared</em>
+
 ## A Tailwind to Vanilla CSS Converter
 
 Available publicly at [vanillabreeze.dev](https://www.vanillabreeze.dev).
